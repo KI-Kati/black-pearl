@@ -209,6 +209,7 @@ window.addEventListener("keydown", (e) => {
   klaenge.wecken();
   if (phase === "start") { phase = "spiel"; wach_halten(); return; }
   if (phase !== "spiel") return;
+  spiel.touch = false;
   spiel.tasten.add(e.code);
   if (e.code === "KeyM") { klaenge.stumm_umschalten(); return; }
   if (e.code === "Space" || e.code === "Escape") { e.preventDefault(); spiel.pausiert = !spiel.pausiert; return; }
@@ -475,7 +476,7 @@ async function hochfahren() {
     await new Promise((fertig) => setTimeout(fertig, 30));   // Ladebild erst einmal zeigen
     klaenge.vorbereiten(tonfolge);
     spiel = new Spiel(klaenge, sprueche);
-    spiel.touch = spiel_ist_touch();
+    spiel.touch = true;    // Tastatur-Hinweise erst, wenn wirklich eine Taste gedrueckt wurde
     window.spiel = spiel;
     top_ten_uebernehmen();
     aufteilen();

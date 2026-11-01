@@ -1,7 +1,7 @@
 "use strict";
 // Alle Spielwerte, uebernommen aus piratenspiel.py. Sie duerfen gefahrlos veraendert werden.
 
-const VERSION = "1.0";
+const VERSION = "1.1";
 const MUSIK_LAUTSTAERKE = 0.22;
 const EFFEKT_LAUTSTAERKE = 0.30;
 
