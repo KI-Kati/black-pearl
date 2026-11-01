@@ -2,7 +2,7 @@
 // Probe fuer Handy und iPad: Fahren, Knoepfe, Ton, Pause. Die Werte stammen aus piratenspiel.py.
 
 // ---------------------------------------------------------------- EINSTELLUNGEN
-const VERSION = "Probe 1";
+const VERSION = "Probe 2";
 const BREITE = 1200, HOEHE = 800;
 const HUD_OBEN = 64, HUD_UNTEN = 56;
 const SCHIFF_BREITE = 150, SCHIFF_TEMPO = 430, SCHIFF_Y = HOEHE - HUD_UNTEN - 60;
@@ -148,6 +148,8 @@ function ton_starten() {
   if (ton.kontext) return;
   const Klasse = window.AudioContext || window.webkitAudioContext;
   if (!Klasse) return;
+  // Spiel-Ton statt Klingelton-Ton: So bleibt er auch im Lautlos-Modus hoerbar (neuere iPads und iPhones).
+  try { if (navigator.audioSession) navigator.audioSession.type = "playback"; } catch (e) { /* aeltere Geraete */ }
   ton.kontext = new Klasse();
   ton.musik = ton.kontext.createGain();
   ton.geraeusche = ton.kontext.createGain();
@@ -166,8 +168,17 @@ function ton_starten() {
 
 function ton_wecken() {
   ton_starten();
-  if (ton.kontext && ton.kontext.state !== "running") ton.kontext.resume().catch(() => {});
+  if (!ton.kontext || ton.kontext.state === "running") return;
+  ton.kontext.resume().catch(() => {});
+  // iOS gibt den Ton erst frei, wenn waehrend einer Beruehrung wirklich etwas abgespielt wird.
+  const still = ton.kontext.createBufferSource();
+  still.buffer = ton.kontext.createBuffer(1, 1, 22050);
+  still.connect(ton.kontext.destination);
+  still.start(0);
 }
+// iOS zaehlt nur touchend und click als Erlaubnis fuer Ton, pointerup reicht dort nicht.
+document.addEventListener("touchend", ton_wecken, { passive: true });
+document.addEventListener("click", ton_wecken);
 
 function spiele(name) {
   if (!ton.kontext || ton.kontext.state !== "running" || !ton.effekte[name]) return;
@@ -614,7 +625,8 @@ function feld_zeichnen() {
   stift.fillRect(auf.ox, fy(HOEHE - HUD_UNTEN), BREITE * s, HUD_UNTEN * s);
   const schrift = Math.max(13, 30 * s);
   text(`${punkte}`, fx(BREITE / 2), fy(HUD_OBEN / 2), Math.max(18, 40 * s), "#ffe08a");
-  text(VERSION, fx(20), fy(HUD_OBEN / 2), Math.max(11, 20 * s), "#cfd8e3", "left");
+  const ton_lage = !ton.kontext ? "aus" : ton.kontext.state === "running" ? "läuft" : ton.kontext.state;
+  text(`${VERSION} · Ton: ${ton_lage}`, fx(20), fy(HUD_OBEN / 2), Math.max(11, 20 * s), "#cfd8e3", "left");
   text(`${Math.round(fps)} Bilder/s`, fx(BREITE - 20), fy(HUD_OBEN / 2), Math.max(11, 20 * s), fps < 45 ? "#ff9d85" : "#cfd8e3", "right");
   if (meldung) text(meldung.text, fx(BREITE / 2), fy(HUD_OBEN + 55), schrift, "#fff");
   stift.restore();
