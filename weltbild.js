@@ -97,7 +97,7 @@ Object.assign(Spiel.prototype, {
     for (const f of this.faesser) {
       if (f.hp <= 0) continue;
       // Letzte sichtbare Stufe ist "destroyed"; bei 0 HP verschwindet das Fass.
-      const stufe = Math.min(2, Math.floor((1 - f.hp / this.stufe.fass_hp) * 3 + 1e-9));
+      const stufe = begrenzen(Math.floor((1 - f.hp / this.stufe.fass_hp) * 3 + 1e-9), 0, 2);
       const lage = FASS_LAGE[stufe], k = FASS_BREITE / lage.koerper;
       const [x, y] = this.fass_mitte(f);
       g.imageSmoothingEnabled = false;
@@ -421,12 +421,13 @@ Object.assign(Spiel.prototype, {
     if (this.power) this.faehigkeit_zeile(this.power, this.power_stufe, this.power_zeit, this.power_dauer(this.power_stufe), 272, HUD_OBEN / 2);
     // Rechts der Punkte: die beiden Zusatz-Power-ups.
     const rechts = this.W / 2 + 145;
-    if (this.schild_stufe) this.faehigkeit_zeile("schutzschild", this.schild_stufe, this.schild_zeit, this.schild_dauer, rechts - 40, 17);
-    if (this.schub_stufe) this.faehigkeit_zeile("schub", this.schub_stufe, this.schub_zeit, this.power_dauer(this.schub_stufe), rechts - 40, 47);
+    if (this.schild_stufe) this.faehigkeit_zeile("schutzschild", this.schild_stufe, this.schild_zeit, this.schild_dauer, rechts, 17);
+    if (this.schub_stufe) this.faehigkeit_zeile("schub", this.schub_stufe, this.schub_zeit, this.power_dauer(this.schub_stufe), rechts, 47);
 
     // Oben Mitte: Punkte.
     this.text(`${this.punkte}`, 44, "rgb(255,225,130)", this.W / 2, 25);
-    this.text(`Highscore ${Math.max(this.bestwert, this.punkte)} · Tempo +${Math.round((this.tempo - 1) * 100)} %`, 20, "rgb(205,205,215)", this.W / 2, 52);
+    // Auch diese Zeile waechst auf dem Handy kaum mit, sonst stoesst sie an die Power-ups.
+    this.text(`Highscore ${Math.max(this.bestwert, this.punkte)} · Tempo +${Math.round((this.tempo - 1) * 100)} %`, 22 / this.text_faktor, "rgb(205,205,215)", this.W / 2, 52);
 
     // Oben rechts: Gegnerleben, je anwesendem Koenig eine Zeile.
     const anwesend = this.koenige.filter((k) => k.lebt);

@@ -19,17 +19,21 @@ function aufteilen() {
   leinwand.height = Math.round(H * dpr);
   const stil = getComputedStyle(document.getElementById("rand"));
   const rand = { l: parseFloat(stil.paddingLeft) || 0, r: parseFloat(stil.paddingRight) || 0, u: parseFloat(stil.paddingBottom) || 0 };
-  const s = Math.min(W / BREITE, H / HOEHE), ox = (W - BREITE * s) / 2;
+  // Die Knoepfe bekommen zuerst ihren Platz; das Feld nimmt den groessten Rest.
+  // Unten darf ein Knopf die Leiste des Felds ueberdecken, dort faehrt kein Schiff.
+  const soll = begrenzen(Math.min(W, H) * KNOPF_ANTEIL, KNOPF_MIN, KNOPF_MAX);
+  const s_seite = Math.min((W - 2 * (soll + 24) - rand.l - rand.r) / BREITE, H / HOEHE);
+  const s_unten = Math.min(W / BREITE, (H - soll - 14 - rand.u) / (HOEHE - HUD_UNTEN));
+  const modus = s_seite >= s_unten ? "seite" : "unten", s = Math.max(s_seite, s_unten);
+  const ox = (W - BREITE * s) / 2, oy = modus === "seite" ? (H - HOEHE * s) / 2 : 0;
   const links_frei = ox - rand.l, rechts_frei = ox - rand.r;
-  const modus = Math.min(links_frei, rechts_frei) >= 56 ? "seite" : "unten";
-  const oy = modus === "seite" ? (H - HOEHE * s) / 2 : 0;
   Object.assign(auf, { W, H, dpr, s, ox, oy, modus });
   // Auf kleinen Bildschirmen wird die Schrift groesser.
   if (spiel) spiel.text_faktor = s < 0.62 ? 1.3 : 1;
 
   if (modus === "seite") {
     // Handy: Bumerang und Affe im linken Streifen, Menue im rechten.
-    const g = begrenzen(Math.min(links_frei, rechts_frei) - 12, 44, 92), unten = H - rand.u - 8;
+    const g = begrenzen(Math.min(links_frei - 12, rechts_frei - 12, (H - rand.u - 28) / 2), 44, KNOPF_MAX), unten = H - rand.u - 8;
     const lx = rand.l + (links_frei - g) / 2, rx = W - rand.r - (rechts_frei + g) / 2;
     auf.knoepfe = [
       { name: "q", x: lx, y: unten - g * 2 - 10, g },
@@ -38,7 +42,7 @@ function aufteilen() {
     ];
   } else {
     // iPad: alle Knoepfe in der unteren Leiste.
-    const leiste = H - (oy + (HOEHE - HUD_UNTEN) * s), g = begrenzen(leiste - rand.u - 10, 44, 84);
+    const leiste = H - (oy + (HOEHE - HUD_UNTEN) * s), g = begrenzen(leiste - rand.u - 10, 44, KNOPF_MAX);
     const y = H - rand.u - 5 - g, lx = rand.l + 16;
     auf.knoepfe = [
       { name: "q", x: lx, y, g },
