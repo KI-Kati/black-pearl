@@ -280,15 +280,29 @@ Object.assign(Spiel.prototype, {
 
   zeichne_tor() {
     if (!this.tor) return;
-    const g = this.g, x = this.tor.x, oben = this.schiff_y - 80, unten = this.schiff_y + 52;
-    // Die Zeit laeuft sichtbar ab: Die Pfosten ruecken bis zum Ablauf zusammen.
-    const anteil = begrenzen(this.tor.zeit / this.tor.dauer, 0, 1), halb = TOR_BREITE / 2 * (0.35 + 0.65 * anteil);
-    for (const [b, f] of [[11, ZIEL_TINTE], [6, "rgb(255,215,60)"]]) {
-      linie(g, f, [[x - halb, unten], [x - halb, oben], [x + halb, oben], [x + halb, unten]], b);
+    const g = this.g, x = this.tor.x, bild = B.roh["tor.png"], w = TOR_BILD_BREITE, h = w * bild.height / bild.width;
+    const unten = this.schiff_y + 58, y = unten - h / 2, mitte_y = unten - h * 0.55;
+    // Die Zeit laeuft sichtbar ab: Das Tor strahlt wie Claude, aber mit immer weniger und kuerzeren Strahlen.
+    const anteil = begrenzen(this.tor.zeit / this.tor.dauer, 0, 1);
+    const anzahl = Math.ceil(TOR_STRAHLEN.length * anteil), laenge = TOR_STRAHL_LAENGE * (0.25 + 0.75 * anteil);
+    const d = laenge * 2;
+    this.licht(B.heilig, x, mitte_y, d, d, 0.35 + 0.65 * anteil);
+    g.save();
+    g.globalCompositeOperation = "lighter";
+    g.imageSmoothingEnabled = true;
+    g.globalAlpha = 0.6 + 0.4 * anteil;
+    g.translate(x, mitte_y);
+    g.rotate((Math.floor(this.zeit * 12) % 10) * 2.25 * Math.PI / 180);
+    for (let i = 0; i < anzahl; i++) {
+      const nummer = TOR_STRAHLEN[i], l = laenge * (nummer % 2 ? 1 : 0.75), b = l * 0.28;
+      g.save();
+      g.rotate(nummer * 22.5 * Math.PI / 180);
+      g.drawImage(B.tor_strahl, -b / 2, -l, b, l);
+      g.restore();
     }
-    const bild = B.roh["banane_0.png"], [w, h] = einpassen(bild, 44, 40);
-    this.mittig(bild, x, oben - 22, w, h);
-    this.text(`DURCHFAHREN! ${this.tor.zeit.toFixed(1)} s`, 28, "rgb(255,225,80)", begrenzen(x, 130, this.W - 130), oben - 56);
+    g.restore();
+    this.mittig(bild, x, y, w, h, true);
+    this.text(`DURCHFAHREN! ${this.tor.zeit.toFixed(1)} s`, 28, "rgb(255,225,80)", begrenzen(x, 130, this.W - 130), unten - h - 18);
   },
 
   // Farbe, Symbol und Name zeigen schon im Fallen, was in der Kiste steckt.

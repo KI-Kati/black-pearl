@@ -1,7 +1,7 @@
 "use strict";
 // Alle Spielwerte, uebernommen aus piratenspiel.py. Sie duerfen gefahrlos veraendert werden.
 
-const VERSION = "1.5";
+const VERSION = "1.6";
 // Knopfgroesse: Anteil der kuerzeren Bildschirmseite, mit Unter- und Obergrenze in Punkten.
 const KNOPF_ANTEIL = 0.13, KNOPF_MIN = 72, KNOPF_MAX = 120;
 const MUSIK_LAUTSTAERKE = 0.22;
@@ -47,6 +47,9 @@ const LASER_STRICH = 1.8, LASER_FOLGT = 0.8, LASER_FEUER = 0.6, LASER_FASS_SCHAD
 const GATLING_SAMMELN = 1.5, GATLING_FEUER = 4, GATLING_ABKUEHLEN = 6, GATLING_TAKT = 0.12, GATLING_SCHWARM = 16, GATLING_NEUE_FAESSER = 2;
 const FRESSEN_MINDESTENS = 5;
 const TOR_CHANCEN = 2, TOR_ERSTES = [6, 12], TOR_ABSTAND = 30, TOR_BREITE = 130, TOR_MIN_WEG = 350, TOR_MAX_WEG = 700, TOR_PUFFER = 0.5;
+const TOR_BILD_BREITE = 320, TOR_STRAHL_LAENGE = 300;
+// Die Reihenfolge verteilt die Strahlen immer gleichmaessig; wer hinten steht, verschwindet zuerst.
+const TOR_STRAHLEN = [0, 8, 4, 12, 2, 10, 6, 14, 1, 9, 5, 13, 3, 11, 7, 15];
 const STRAHL_BREITE = 68, STRAHL_FASS_SCHADEN = 14;
 
 const Q_ABSCHUESSE = 18, E_ABSCHUESSE = 70, Q_ZIELZEIT = 20, Q_SCHWENK = 2.0, Q_ZIEL_Y = KOENIG_Y, Q_ZIEL_RAND = 55;

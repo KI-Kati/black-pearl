@@ -231,6 +231,31 @@ function heilige_strahlen() {
   return c;
 }
 
+// Ein einzelner Strahl fuers Bananen-Tor: Spitze unten in der Mitte, nach aussen ausgeblendet.
+function tor_strahl_malen() {
+  const c = flaeche(64, 256), g = c.getContext("2d");
+  g.fillStyle = "#000";
+  g.fillRect(0, 0, 64, 256);
+  for (const [b, farbe] of [[32, "rgb(170,145,85)"], [14, "rgb(255,248,215)"]]) {
+    g.fillStyle = farbe;
+    g.beginPath();
+    g.moveTo(32, 256);
+    g.lineTo(32 - b, 0);
+    g.lineTo(32 + b, 0);
+    g.closePath();
+    g.fill();
+  }
+  g.globalCompositeOperation = "multiply";
+  const v = g.createLinearGradient(0, 256, 0, 0);
+  for (let i = 0; i <= 10; i++) {
+    const t = i / 10, w = 255 * (1 - t) ** 0.7 | 0;
+    v.addColorStop(t, `rgb(${w},${w},${w})`);
+  }
+  g.fillStyle = v;
+  g.fillRect(0, 0, 64, 256);
+  return c;
+}
+
 function heiliger_ring() {
   const breite = 100, hoehe = 33, c = flaeche(breite * 2, hoehe * 3), g = c.getContext("2d"), mx = breite, my = hoehe * 1.5;
   g.fillStyle = "#000";
@@ -263,7 +288,7 @@ function leuchtkreis(farbe, staerke) {
 }
 
 const DATEIEN = [
-  "meer.jpg", "nacht.jpg", "schiff_links.png", "schiff_rechts.png", "gesunken_links.png", "gesunken_rechts.png",
+  "meer.jpg", "nacht.jpg", "tor.png", "schiff_links.png", "schiff_rechts.png", "gesunken_links.png", "gesunken_rechts.png",
   "koenig_Claude.png", "koenig_ChatGPT.png", "koenig_Gemini.png", "frost_Claude.png", "frost_ChatGPT.png", "frost_Gemini.png",
   "kopf_Claude.png", "kopf_ChatGPT.png", "kopf_Gemini.png",
   "banane_0.png", "banane_1.png", "banane_2.png", "banane_3.png", "symbol.png", "affe.png", "bumerang.png",
@@ -337,4 +362,5 @@ async function bilder_vorbereiten() {
   B.heilig = heiliges_licht();
   B.strahlen = heilige_strahlen();
   B.ring = heiliger_ring();
+  B.tor_strahl = tor_strahl_malen();
 }
