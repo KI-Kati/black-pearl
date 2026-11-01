@@ -1,7 +1,7 @@
 "use strict";
 // Alle Spielwerte, uebernommen aus piratenspiel.py. Sie duerfen gefahrlos veraendert werden.
 
-const VERSION = "1.3";
+const VERSION = "1.4";
 // Knopfgroesse: Anteil der kuerzeren Bildschirmseite, mit Unter- und Obergrenze in Punkten.
 const KNOPF_ANTEIL = 0.13, KNOPF_MIN = 72, KNOPF_MAX = 120;
 const MUSIK_LAUTSTAERKE = 0.22;

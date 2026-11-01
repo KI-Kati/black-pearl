@@ -411,6 +411,7 @@ function zeichnen() {
     // Das Bild bringt sein Logo schon mit; darum steht hier nur der Hinweis.
     const e = Math.min(auf.W, auf.H * 1.5) / 100;
     ptext("Zum Starten antippen", auf.W / 2, auf.H * 0.9, e * 4.4);
+    if (ist_handy()) ptext("Tipp: Auf dem Tablet ist alles größer und macht mehr Spaß!", auf.W / 2, auf.H * 0.9 - e * 5, Math.max(13, e * 2.6), "rgb(255,224,138)");
     const vollbild = window.navigator.standalone || window.matchMedia("(display-mode: fullscreen), (display-mode: standalone)").matches;
     if (!vollbild && spiel_ist_touch()) ptext("Für Vollbild: Teilen → Zum Home-Bildschirm", auf.W / 2, auf.H * 0.9 + e * 4.6, Math.max(12, e * 2.2), "rgb(207,216,227)");
     return;
@@ -434,6 +435,7 @@ function zeichnen() {
 }
 
 const spiel_ist_touch = () => navigator.maxTouchPoints > 0;
+const ist_handy = () => spiel_ist_touch() && Math.min(screen.width, screen.height) < 500;
 
 // ---------------------------------------------------------------- HAUPTSCHLEIFE
 let vorher = 0;
