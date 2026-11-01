@@ -50,7 +50,13 @@ class Spiel {
 
   starten(schwierigkeit) {
     this.schwierigkeit = schwierigkeit;
+    this.neue_runde();
+  }
+
+  // Eine vom Spieler gestartete Runde; nur sie zaehlt in der Statistik.
+  neue_runde() {
     this.neu_starten();
+    zaehlen("runde-" + this.schwierigkeit);
   }
 
   zum_menue() {

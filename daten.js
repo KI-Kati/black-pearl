@@ -1,7 +1,7 @@
 "use strict";
 // Alle Spielwerte, uebernommen aus piratenspiel.py. Sie duerfen gefahrlos veraendert werden.
 
-const VERSION = "1.6";
+const VERSION = "1.7";
 // Knopfgroesse: Anteil der kuerzeren Bildschirmseite, mit Unter- und Obergrenze in Punkten.
 const KNOPF_ANTEIL = 0.13, KNOPF_MIN = 72, KNOPF_MAX = 120;
 const MUSIK_LAUTSTAERKE = 0.22;
@@ -117,6 +117,13 @@ const MINI_SCHRIFT = {
 const TOKEN_VARIANTEN = [["normal", ""], ["schiel", ""], ["oh", ""], ["grins", ""], ["normal", "?"], ["schiel", "!"], ["schlaf", "404"]];
 
 // ---------------------------------------------------------------- HELFER
+// Besucherzaehler: Ohne Internet oder mit Werbeblocker passiert hier einfach nichts.
+function zaehlen(name) {
+  try {
+    if (window.goatcounter && window.goatcounter.count) window.goatcounter.count({ path: name, title: name, event: true });
+  } catch (e) { /* das Spiel laeuft trotzdem */ }
+}
+
 const begrenzen = (w, a, b) => Math.max(a, Math.min(b, w));
 const zufall = (a, b) => a + Math.random() * (b - a);
 const zufall_von = (paar) => zufall(paar[0], paar[1]);

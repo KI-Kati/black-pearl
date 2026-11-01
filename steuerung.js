@@ -92,7 +92,7 @@ function regler_setzen(name, px) {
 
 function menue_waehlen(name) {
   if (name === "weiter") { spiel.pausiert = false; fuehrung = null; }
-  else if (name === "neu") spiel.neu_starten();
+  else if (name === "neu") spiel.neue_runde();
   else if (name === "haupt") spiel.zum_menue();
 }
 
@@ -191,7 +191,7 @@ function tippen(px, py) {
     }
   } else {
     const k = spiel.end_knoepfe().find((a) => R_innen(a, x, y));
-    if (k && k.name === "neu") spiel.neu_starten();
+    if (k && k.name === "neu") spiel.neue_runde();
     else if (k) spiel.zum_menue();
   }
 }
@@ -218,7 +218,7 @@ window.addEventListener("keydown", (e) => {
   if (e.code === "KeyM") { klaenge.stumm_umschalten(); return; }
   if (e.code === "Space" || e.code === "Escape") { e.preventDefault(); spiel.pausiert = !spiel.pausiert; return; }
   if (spiel.pausiert) return;
-  if (e.code === "F5") { e.preventDefault(); spiel.neu_starten(); return; }
+  if (e.code === "F5") { e.preventDefault(); spiel.neue_runde(); return; }
   if (spiel.zustand === "menue") {
     const namen = Object.keys(STUFEN), nummer = namen.indexOf(spiel.schwierigkeit);
     if (e.code === "ArrowUp" || e.code === "KeyW") spiel.schwierigkeit = namen[(nummer + 3) % 4];

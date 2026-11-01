@@ -1,5 +1,5 @@
 // Offline-Speicher: Erst das Netz fragen, damit Aenderungen sofort ankommen; ohne Netz der Speicher.
-const SPEICHER = "black-pearl-4";
+const SPEICHER = "black-pearl-5";
 const DATEIEN = [
   "./", "index.html", "daten.js", "grafik.js", "klang.js", "spiel.js", "weltbild.js", "steuerung.js", "manifest.webmanifest",
   "daten/sprueche.json", "daten/monkey_island_tonfolge.json",
