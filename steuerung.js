@@ -4,7 +4,7 @@
 const leinwand = document.getElementById("feld");
 const stift = leinwand.getContext("2d");
 const klaenge = new Klaenge();
-const musik = new Hoellenmusik(klaenge);
+const musik = new Kampfmusik(klaenge);
 let spiel = null;
 let phase = "laden";      // laden, start (wartet auf die erste Beruehrung), spiel
 let fehler = null;
