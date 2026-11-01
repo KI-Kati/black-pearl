@@ -1,5 +1,5 @@
 // Offline-Speicher: Erst das Netz fragen, damit Aenderungen sofort ankommen; ohne Netz der Speicher.
-const SPEICHER = "black-pearl-2";
+const SPEICHER = "black-pearl-3";
 const DATEIEN = [
   "./", "index.html", "daten.js", "grafik.js", "klang.js", "spiel.js", "weltbild.js", "steuerung.js", "manifest.webmanifest",
   "daten/sprueche.json", "daten/monkey_island_tonfolge.json",
@@ -23,7 +23,8 @@ self.addEventListener("activate", (e) => {
 self.addEventListener("fetch", (e) => {
   if (e.request.method !== "GET" || new URL(e.request.url).origin !== location.origin) return;
   e.respondWith(
-    fetch(e.request).then((antwort) => {
+    // no-cache: Der Browser muss bei GitHub nachfragen, statt eine alte Fassung aus seinem Speicher zu nehmen.
+    fetch(e.request, { cache: "no-cache" }).then((antwort) => {
       if (antwort.ok) {
         const kopie = antwort.clone();
         caches.open(SPEICHER).then((c) => c.put(e.request, kopie));

@@ -410,6 +410,7 @@ function zeichnen() {
     nacht_zeichnen();
     // Das Bild bringt sein Logo schon mit; darum steht hier nur der Hinweis.
     const e = Math.min(auf.W, auf.H * 1.5) / 100;
+    ptext(`Version ${VERSION}`, auf.W - 12, 14, 12, "rgb(207,216,227)", "right");
     ptext("Zum Starten antippen", auf.W / 2, auf.H * 0.9, e * 4.4);
     if (ist_handy()) ptext("Tipp: Auf dem Tablet ist alles größer und macht mehr Spaß!", auf.W / 2, auf.H * 0.9 - e * 5, Math.max(13, e * 2.6), "rgb(255,224,138)");
     const vollbild = window.navigator.standalone || window.matchMedia("(display-mode: fullscreen), (display-mode: standalone)").matches;
@@ -492,6 +493,13 @@ async function hochfahren() {
     fehler = "Laden fehlgeschlagen: " + f.message;
     console.error(f);
   }
-  if ("serviceWorker" in navigator && location.protocol === "https:") navigator.serviceWorker.register("sw.js").catch(() => {});
+  if ("serviceWorker" in navigator && location.protocol === "https:") {
+    const hatte_alte_fassung = !!navigator.serviceWorker.controller;
+    // Kommt eine neue Fassung an, laedt sich das Spiel einmal neu, aber nie mitten im Kampf.
+    navigator.serviceWorker.addEventListener("controllerchange", () => {
+      if (hatte_alte_fassung && (phase !== "spiel" || spiel.zustand === "menue")) location.reload();
+    });
+    navigator.serviceWorker.register("sw.js", { updateViaCache: "none" }).catch(() => {});
+  }
 }
 hochfahren();
