@@ -25,16 +25,18 @@ const zufall = (a, b) => a + Math.random() * (b - a);
 // ---------------------------------------------------------------- ZUSTAND
 let zustand = "laden";     // laden, start, spiel
 let pausiert = false;
-let musik_an = true;
-let geraeusche_an = true;
+let musik_laut = 0.8;       // 0 bis 1, beide unabhaengig voneinander
+let geraeusche_laut = 0.8;
+let stumm = false;          // Taste M am PC
 let last = false;
 let x, ziel, blick, schuss_warten, kugeln, muenzen, muenz_warten, punkte, q_ladung, e_ladung;
 let zielen, schwenk, schwenk_start, bumerang, affe, scheibe, funken, meldung;
 let zeit = 0, fps = 60;
 try {
-  musik_an = localStorage.getItem("musik") !== "aus";
-  geraeusche_an = localStorage.getItem("geraeusche") !== "aus";
-} catch (e) { /* ohne Speicher bleibt der Ton an */ }
+  const m = parseFloat(localStorage.getItem("musik")), g = parseFloat(localStorage.getItem("geraeusche"));
+  if (m >= 0 && m <= 1) musik_laut = m;
+  if (g >= 0 && g <= 1) geraeusche_laut = g;
+} catch (e) { /* ohne Speicher gelten die Startwerte */ }
 
 function neu_starten() {
   x = ziel = BREITE / 2;
@@ -124,8 +126,8 @@ function menue_felder() {
   return [
     { name: "weiter", text: "Weiter" },
     { name: "neu", text: "Neu starten" },
-    { name: "musik", text: () => (musik_an ? "Musik: an" : "Musik: aus") },
-    { name: "geraeusche", text: () => (geraeusche_an ? "Geräusche: an" : "Geräusche: aus") },
+    { name: "musik", regler: true, text: "Musik", wert: () => musik_laut },
+    { name: "geraeusche", regler: true, text: "Geräusche", wert: () => geraeusche_laut },
     { name: "last", text: () => (last ? "Belastungstest: an" : "Belastungstest: aus") },
   ].map((f, i) => ({ ...f, x: (auf.W - b) / 2, y: y0 + i * (h + luecke), b, h }));
 }
@@ -205,18 +207,33 @@ function musik_planen() {
 }
 
 function ton_regler() {
-  if (ton.musik) ton.musik.gain.value = musik_an ? 1 : 0;
-  if (ton.geraeusche) ton.geraeusche.gain.value = geraeusche_an ? 1 : 0;
+  if (ton.musik) ton.musik.gain.value = stumm ? 0 : musik_laut;
+  if (ton.geraeusche) ton.geraeusche.gain.value = stumm ? 0 : geraeusche_laut;
+}
+
+function ton_merken() {
   try {
-    localStorage.setItem("musik", musik_an ? "an" : "aus");
-    localStorage.setItem("geraeusche", geraeusche_an ? "an" : "aus");
+    localStorage.setItem("musik", String(musik_laut));
+    localStorage.setItem("geraeusche", String(geraeusche_laut));
   } catch (e) { /* dann nur fuer diese Runde */ }
 }
 
-// Taste M am PC: alles aus, oder wieder alles an.
+// Taste M am PC: alles stumm, die eingestellte Lautstaerke bleibt erhalten.
 function ton_umschalten() {
-  const an = !(musik_an || geraeusche_an);
-  musik_an = geraeusche_an = an;
+  stumm = !stumm;
+  ton_regler();
+}
+
+function regler_bahn(f) {
+  return { x: f.x + f.b * 0.5, b: f.b * 0.5 - f.h * 0.4 };
+}
+
+function regler_setzen(name, px) {
+  const f = menue_felder().find((m) => m.name === name), bahn = regler_bahn(f);
+  const wert = Math.round(begrenzen((px - bahn.x) / bahn.b, 0, 1) * 20) / 20;
+  if (name === "musik") musik_laut = wert;
+  else geraeusche_laut = wert;
+  stumm = false;
   ton_regler();
 }
 
@@ -289,8 +306,6 @@ function menue_waehlen(name) {
   spiele("klick");
   if (name === "weiter") pause_setzen(false);
   else if (name === "neu") { neu_starten(); pause_setzen(false); }
-  else if (name === "musik") { musik_an = !musik_an; ton_regler(); }
-  else if (name === "geraeusche") { geraeusche_an = !geraeusche_an; ton_regler(); }
   else if (name === "last") { last = !last; if (!last) muenzen = muenzen.slice(0, 5); }
 }
 
@@ -298,6 +313,12 @@ function menue_waehlen(name) {
 let fuehrung = null;          // der Finger, der gerade lenkt
 const gedrueckt = new Set();  // Knoepfe, die gerade unter einem Finger liegen
 const finger = new Map();
+let regler_griff = null;      // der Finger auf einem Lautstaerke-Regler
+let regler_gerade_los = false;
+
+function menue_feld_bei(px, py) {
+  return menue_felder().find((m) => px >= m.x && px <= m.x + m.b && py >= m.y && py <= m.y + m.h);
+}
 
 function lenken(px) {
   ziel = begrenzen((px - auf.ox) / auf.s, SCHIFF_BREITE / 2, BREITE - SCHIFF_BREITE / 2);
@@ -306,6 +327,14 @@ function lenken(px) {
 leinwand.addEventListener("pointerdown", (e) => {
   e.preventDefault();
   try { leinwand.setPointerCapture(e.pointerId); } catch (f) { /* unkritisch */ }
+  if (zustand === "spiel" && pausiert && !ist_hochkant()) {
+    const f = menue_feld_bei(e.clientX, e.clientY);
+    if (f && f.regler) {
+      regler_griff = { id: e.pointerId, name: f.name };
+      regler_setzen(f.name, e.clientX);
+    }
+    return;
+  }
   if (zustand !== "spiel" || pausiert || ist_hochkant()) return;
   const k = knopf_bei(e.clientX, e.clientY);
   if (k) {
@@ -319,25 +348,34 @@ leinwand.addEventListener("pointerdown", (e) => {
 });
 
 leinwand.addEventListener("pointermove", (e) => {
-  if (e.pointerId === fuehrung && zustand === "spiel" && !pausiert) lenken(e.clientX);
+  if (regler_griff && e.pointerId === regler_griff.id) regler_setzen(regler_griff.name, e.clientX);
+  else if (e.pointerId === fuehrung && zustand === "spiel" && !pausiert) lenken(e.clientX);
 });
 
 function finger_los(e) {
+  if (regler_griff && e.pointerId === regler_griff.id) {
+    // Beim Loslassen ein Probeklang, damit man die neue Lautstaerke der Geraeusche hoert.
+    if (regler_griff.name === "geraeusche") spiele("muenze");
+    regler_griff = null;
+    ton_merken();
+    regler_gerade_los = true;
+  }
   if (e.pointerId === fuehrung) fuehrung = null;   // Das Ziel bleibt: Antippen heisst "fahr dorthin".
   const name = finger.get(e.pointerId);
   if (name) { finger.delete(e.pointerId); gedrueckt.delete(name); }
 }
 leinwand.addEventListener("pointercancel", finger_los);
 leinwand.addEventListener("pointerup", (e) => {
+  regler_gerade_los = false;
   finger_los(e);
   ton_wecken();
   if (ist_hochkant()) return;
   if (zustand === "start") {
     zustand = "spiel";
     wach_halten();
-  } else if (zustand === "spiel" && pausiert) {
-    const f = menue_felder().find((m) => e.clientX >= m.x && e.clientX <= m.x + m.b && e.clientY >= m.y && e.clientY <= m.y + m.h);
-    if (f) menue_waehlen(f.name);
+  } else if (zustand === "spiel" && pausiert && !regler_gerade_los) {
+    const f = menue_feld_bei(e.clientX, e.clientY);
+    if (f && !f.regler) menue_waehlen(f.name);
   }
 });
 
@@ -634,7 +672,22 @@ function pause_zeichnen() {
     stift.lineWidth = 1.5;
     stift.strokeStyle = "rgba(255,255,255,.45)";
     stift.stroke();
-    text(typeof f.text === "function" ? f.text() : f.text, f.x + f.b / 2, f.y + f.h / 2, f.h * 0.4);
+    if (f.regler) {
+      const wert = f.wert(), bahn = regler_bahn(f), my = f.y + f.h / 2;
+      text(`${f.text} ${Math.round(wert * 100)} %`, f.x + f.h * 0.35, my, f.h * 0.33, "#fff", "left");
+      stift.fillStyle = "rgba(255,255,255,.25)";
+      rund(bahn.x, my - 4, bahn.b, 8, 4);
+      stift.fill();
+      stift.fillStyle = "#ffcf3f";
+      rund(bahn.x, my - 4, bahn.b * wert, 8, 4);
+      stift.fill();
+      stift.beginPath();
+      stift.arc(bahn.x + bahn.b * wert, my, f.h * 0.27, 0, Math.PI * 2);
+      stift.fillStyle = "#fff";
+      stift.fill();
+    } else {
+      text(typeof f.text === "function" ? f.text() : f.text, f.x + f.b / 2, f.y + f.h / 2, f.h * 0.4);
+    }
   }
 }
 
@@ -680,10 +733,9 @@ function schleife(jetzt) {
   if (roh > 0 && roh < 1) fps += (1 / roh - fps) * 0.05;
   zeit += dt;
   if (ist_hochkant() && zustand === "spiel" && !pausiert) pause_setzen(true);
-  if (zustand === "spiel" && !pausiert) {
-    aktualisieren(dt);
-    musik_planen();
-  }
+  if (zustand === "spiel" && !pausiert) aktualisieren(dt);
+  // Die Musik laeuft im Pause-Menue weiter, damit man ihre Lautstaerke beim Einstellen hoert.
+  if (zustand === "spiel" && !ist_hochkant()) musik_planen();
   zeichnen();
   requestAnimationFrame(schleife);
 }
