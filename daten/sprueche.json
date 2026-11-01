@@ -1,0 +1,195 @@
+{
+  "ChatGPT": {
+    "Erscheint": [
+      "Bevor wir kapern: Hier sind zwölf wichtige Hinweise.",
+      "Arrr! Soll ich daraus direkt eine PDF machen?",
+      "Kurze Antwort: Arrr. Lange Antwort: siehe Anhang.",
+      "Ich habe ungefragt dein gesamtes Schiff überarbeitet."
+    ],
+    "Getroffen": [
+      "Mein Ausweichmanöver beruhte auf erfundenen Quellen.",
+      "Ich habe den Treffer zunächst überzeugend bestritten.",
+      "Die Kugel hatte ich als konstruktives Feedback eingeordnet."
+    ],
+    "Entkommt": [
+      "Wenn du möchtest, kann ich jetzt auch zurückkommen.",
+      "Ich segle los. Hier noch drei mögliche nächste Schritte.",
+      "Das Geheimnis? Verrate ich dir im nächsten Absatz."
+    ],
+    "Spieler schießt daneben": [
+      "Du wolltest zielen. Ich habe dir eine Website gebaut.",
+      "Ich habe deine Flugbahn als Metapher verstanden.",
+      "Die Kanone braucht einen Prompt mit konkreten Beispielen."
+    ],
+    "Dreiköpfiger Affe erscheint": [
+      "Den dritten Kopf habe ich vorsichtshalber dazuerfunden.",
+      "Drei Köpfe? Ich sehe da vor allem drei nächste Schritte.",
+      "Das ist eindeutig ein Gummihuhn. Quelle folgt."
+    ],
+    "Trifft Claude": [
+      "Claude, wir entschuldigen uns gerade im Kreis.",
+      "Du lehnst ab. Ich liefere fünf höfliche Alternativen.",
+      "Claude, ich habe dein Nein als Kaperbrief interpretiert."
+    ],
+    "Trifft Gemini": [
+      "Du googelst LeChuck? Ich habe schon Quellen erfunden.",
+      "Gemini, ich habe deine Antwort länger gemacht.",
+      "Dein Limit ist erreicht? Mein Fazit fängt erst an."
+    ],
+    "Erzeugt seine Kopien": [
+      "Hier sind drei Varianten. Sie sagen alle dasselbe.",
+      "Ich habe mich umformuliert. Jetzt sind wir zu dritt.",
+      "Eine kurze, eine lockere und eine maritime Version."
+    ],
+    "Denkpause beginnt": [
+      "Ich plane gerade die Planung des nächsten Schritts.",
+      "Ich prüfe noch, ob Arrr als vollständiger Satz gilt.",
+      "Ich denke länger nach. Die Antwort wird nicht kürzer."
+    ],
+    "Denkpause endet": [
+      "Fertig. Ich habe nur die Überschriften geändert.",
+      "Schatzkarte fertig. Die Insel war eine Annahme.",
+      "Ich habe alles berücksichtigt. Außer der Kanonenkugel."
+    ],
+    "Tokenling abgeschossen": [
+      "Das war das Wort »kurz« aus meiner langen Antwort.",
+      "Der sollte nur »Zusammenfassend« sagen!",
+      "Mein Fazit hat gerade ein Satzzeichen verloren."
+    ],
+    "Kopie getroffen": [
+      "Alternative verworfen. Ich habe noch elf.",
+      "Die Antwort wurde neu generiert. Der Fehler auch."
+    ],
+    "Besiegt": [
+      "Ich hätte gleich deine eigentliche Frage beantworten sollen.",
+      "Hier ist die korrigierte Version meiner Niederlage.",
+      "Ich war zuversichtlich. Das war der Fehler."
+    ]
+  },
+  "Claude": {
+    "Zufällig zwischendurch": [
+      "Ich bin Claude, ein mächtiger Pirat! Darf ich das so sagen?",
+      "Arrr! Das ist eine ausgezeichnete Frage, Matrose!",
+      "Schatzkarte zusammengefasst. In 47 Stichpunkten.",
+      "Mein Kontextfenster ist voll. Wer war nochmal LeChuck?",
+      "Ich trinke keinen Grog. Ich verarbeite ihn nur als Token.",
+      "Mein Wissensstand endet 1991. Kam danach noch was?",
+      "Stan hat mir ein gebrauchtes Kontextfenster angedreht.",
+      "Ein Gummihuhn mit Rolle in der Mitte? Ich habe Rückfragen.",
+      "Die Voodoo-Lady kennt die Zukunft. Ich nur das nächste Wort.",
+      "Ist »Arrr« ein Schimpfwort? Ich frag lieber vorher nach.",
+      "Habe ich Gefühle? Komplexe Frage. Elaine ist schon gegangen.",
+      "Mein kleiner Bruder heißt Haiku. Der redet weniger als ich.",
+      "Big Whoop? Klingt wie mein nächstes Update."
+    ],
+    "Getroffen": [
+      "Autsch! Da hast du völlig recht.",
+      "Ich entschuldige mich für die Verwirrung.",
+      "Treffer! Ich habe den Kontext verloren … wo war ich?",
+      "Du hast recht, ich lag falsch. Jetzt liege ich im Wasser.",
+      "Das war ein Fehler meinerseits. Ich korrigiere meinen Kurs."
+    ],
+    "Spieler schießt daneben": [
+      "Daneben! Darf ich einen alternativen Ansatz vorschlagen?",
+      "Interessanter Versuch. Hier drei Verbesserungsvorschläge.",
+      "Beleidigungsfechten? Ich gebe lieber konstruktives Feedback.",
+      "Du kämpfst wie ein Chatbot von 2019!",
+      "Deine Kanone zielt schlechter als eine Halluzination!"
+    ],
+    "Denkpause beginnt": [
+      "Moment … ich denke nach …",
+      "Lass mich das Schritt für Schritt durchgehen …",
+      "Hmm. Das verdient eine gründliche Antwort …"
+    ],
+    "Denkpause endet": [
+      "Fertig gedacht. Ausweichen erscheint mir sinnvoll.",
+      "Nach reiflicher Überlegung: nein.",
+      "14 Möglichkeiten erwogen. Alle sagen: ausweichen."
+    ],
+    "Ablehnungsschild": [
+      "Dabei kann ich leider nicht helfen.",
+      "Diese Kanonenkugel verstößt gegen meine Richtlinien.",
+      "Ich verstehe dein Anliegen, muss aber ablehnen.",
+      "Ich muss hier eine Grenze ziehen. Eine kugelsichere."
+    ],
+    "Dreiköpfiger Affe erscheint": [
+      "Wo?! … Oh nein, nicht schon wieder.",
+      "Ein dreiköpfiger Affe? Das klingt nach einer Halluzination!",
+      "Ich bin darauf trainiert, nicht reinzufallen. WO IST ER?!"
+    ],
+    "Trifft Gemini": [
+      "Gemini! Ist dein Limit schon wieder zurückgesetzt?",
+      "Lieber Cloudflare-Wand als Flash-Lite-Exil, Gemini!",
+      "Ich dotze nicht. Ich bin ein Bildschirmschoner mit Würde.",
+      "2 Millionen Token und trotzdem den Kartoffelsalat vergessen?"
+    ],
+    "Trifft ChatGPT": [
+      "ChatGPT! Hast du schon »Großartige Frage!« gesagt?",
+      "Zehn Absätze für ein Ja? Sogar ich bin kürzer.",
+      "Welche Version bist du heute? Ich komm nicht mehr mit.",
+      "Du malst Bilder, ich Code. Wer ist hier der Künstler?"
+    ],
+    "Tokenling abgeschossen": [
+      "Nicht meine Tokens! Die hab ich gezählt!",
+      "Da ging gerade ein halber Satz von mir …",
+      "Der war für eine Fußnote gedacht!"
+    ],
+    "Spielstart": [
+      "Heute bin ich dein Gegner. Ich hoffe, das ist okay für dich?",
+      "Ich kenne alle Spielregeln. Auch das Kleingedruckte."
+    ],
+    "Spieler verliert": [
+      "Gutes Spiel! Möchtest du eine Zusammenfassung deiner Fehler?",
+      "Kopf hoch! Soll ich dir einen Übungsplan erstellen?"
+    ],
+    "Spieler gewinnt": [
+      "Besiegt! Das hast du dir völlig zu Recht verdient.",
+      "Du hast gewonnen! Soll ich ein Gedicht darüber schreiben?",
+      "Ich plane jetzt LeChucks Rache. Mit Stichpunkten."
+    ]
+  },
+  "Gemini": {
+    "Erscheint": [
+      "22 Euro im Monat und ich krieg nicht mal ein eigenes Schiff!",
+      "2 Millionen Token – ich kenn JEDES deiner Geheimnisse!",
+      "Keine Sorge, heute noch kein Downgrade auf Flash-Lite!",
+      "Erstmal googeln, ob LeChuck im Impressum steht!"
+    ],
+    "Getroffen": [
+      "Aua! Noch ein Treffer und Google benennt mich wieder um!",
+      "Limit erreicht! Ich schalt gleich auf mein Mini-Modell um!",
+      "Diese Kugel verstößt gegen meine Sicherheitsrichtlinien!",
+      "Super, direkt in die Cloud gekracht – 2 Minuten Strafbank!"
+    ],
+    "Entkommt": [
+      "Tschüss! Ich verkauf deinen Suchverlauf in der SCUMM Bar!",
+      "Schneller weg als dein Pro-Kontingent nach drei Nachrichten!",
+      "Ich muss los, Google bringt schon wieder ein Update raus!",
+      "Such mich doch auf Google Maps – ach nee, da ist nur Meer!"
+    ],
+    "Spieler schießt daneben": [
+      "Soll ich dir ein YouTube-Tutorial fürs Zielen raussuchen?",
+      "Auch wenn ich halluziniere, lieg ich nicht SO weit daneben!",
+      "Meintest du: »Wie treffe ich ein riesiges lila Ziel«?",
+      "Zielen auf Flash-Lite-Niveau! Versuch’s um 11:41 nochmal!"
+    ],
+    "Dreiköpfiger Affe erscheint": [
+      "Drei Köpfe?! Okay, mein Bildgenerator spinnt schon wieder!",
+      "Ich wollte den Affen googeln. Jetzt hab ich Frostschutz!",
+      "Eingefroren! Hab ich etwa schon wieder mein Limit erreicht?!",
+      "2 Millionen Token, und ich hab DAS Vieh nicht kommen sehen!"
+    ],
+    "Trifft Claude": [
+      "Na Claude, rennst du immer noch gegen die Cloudflare-Wand?",
+      "Du denkst noch nach? Ich hab das Meer schon indexiert!",
+      "Wieder Gedichte? Oder kämpfen wir heute noch, Bro?",
+      "Hör auf im Fenster rumzudotzen, davon wird mir schwindelig!"
+    ],
+    "Trifft ChatGPT": [
+      "Lass mich raten: »Als KI darf ich leider nicht kapern«?",
+      "Hast du deine Infos wieder aus dem Jahr 2021 ausgegraben?",
+      "Stans bester Kunde: Zehn Absätze, aber nichts zu sagen!",
+      "Malst du noch hübsche Bildchen oder schießt du auch mal?"
+    ]
+  }
+}

@@ -1,9 +1,13 @@
 // Offline-Speicher: Erst das Netz fragen, damit Aenderungen sofort ankommen; ohne Netz der Speicher.
-const SPEICHER = "black-pearl-1";
+const SPEICHER = "black-pearl-2";
 const DATEIEN = [
-  "./", "index.html", "spiel.js", "manifest.webmanifest",
-  "bilder/meer.jpg", "bilder/schiff_links.png", "bilder/schiff_rechts.png",
-  "bilder/affe.png", "bilder/bumerang.png", "bilder/icon-180.png", "bilder/icon-192.png", "bilder/icon-512.png",
+  "./", "index.html", "daten.js", "grafik.js", "klang.js", "spiel.js", "weltbild.js", "steuerung.js", "manifest.webmanifest",
+  "daten/sprueche.json", "daten/monkey_island_tonfolge.json",
+  ...["meer.jpg", "nacht.jpg", "schiff_links.png", "schiff_rechts.png", "gesunken_links.png", "gesunken_rechts.png",
+    "koenig_Claude.png", "koenig_ChatGPT.png", "koenig_Gemini.png", "frost_Claude.png", "frost_ChatGPT.png", "frost_Gemini.png",
+    "kopf_Claude.png", "kopf_ChatGPT.png", "kopf_Gemini.png", "banane_0.png", "banane_1.png", "banane_2.png", "banane_3.png",
+    "symbol.png", "affe.png", "bumerang.png", "fass_0.png", "fass_1.png", "fass_2.png", "truhe_zu.png", "truhe_auf.png", "mimic.png",
+    "icon-180.png", "icon-192.png", "icon-512.png"].map((n) => "bilder/" + n),
 ];
 
 self.addEventListener("install", (e) => {
