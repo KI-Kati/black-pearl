@@ -121,7 +121,7 @@ const ist_hochkant = () => auf.H > auf.W;
 
 // Pause-Menue: fuenf gleich grosse Felder in der Mitte
 function menue_felder() {
-  const h = begrenzen(auf.H * 0.115, 40, 62), b = Math.min(340, auf.W * 0.6), luecke = h * 0.2;
+  const h = begrenzen(auf.H * 0.115, 40, 62), b = Math.min(400, auf.W * 0.6), luecke = h * 0.2;
   const y0 = auf.H / 2 - (5 * h + 4 * luecke) / 2 + h * 0.45;
   return [
     { name: "weiter", text: "Weiter" },
@@ -225,7 +225,7 @@ function ton_umschalten() {
 }
 
 function regler_bahn(f) {
-  return { x: f.x + f.b * 0.5, b: f.b * 0.5 - f.h * 0.4 };
+  return { x: f.x + f.b * 0.56, b: f.b * 0.44 - f.h * 0.4 };
 }
 
 function regler_setzen(name, px) {
@@ -674,7 +674,12 @@ function pause_zeichnen() {
     stift.stroke();
     if (f.regler) {
       const wert = f.wert(), bahn = regler_bahn(f), my = f.y + f.h / 2;
-      text(`${f.text} ${Math.round(wert * 100)} %`, f.x + f.h * 0.35, my, f.h * 0.33, "#fff", "left");
+      // Die Schrift passt sich an, damit sie nie unter den Regler laeuft (auch nicht bei 100 %).
+      const beschriftung = `${f.text} ${Math.round(wert * 100)} %`;
+      const links = f.x + f.h * 0.35, platz = bahn.x - f.h * 0.27 - 8 - links;
+      stift.font = `700 100px system-ui, -apple-system, "Segoe UI", sans-serif`;
+      const breit_100 = stift.measureText(`Geräusche 100 %`).width;
+      text(beschriftung, links, my, Math.min(f.h * 0.33, platz / breit_100 * 100), "#fff", "left");
       stift.fillStyle = "rgba(255,255,255,.25)";
       rund(bahn.x, my - 4, bahn.b, 8, 4);
       stift.fill();
